@@ -1,0 +1,79 @@
+general {
+        output_format = "i3bar"
+        colors = false
+        markup = pango
+        interval = 1
+        color_good = '#2f343f'
+		color_degraded = '#ebcb8b'
+		color_bad = '#ba5e57'
+}
+
+order += "cpu_usage"
+order += "cpu_temperature 0"
+order += "memory"
+order += "disk /"
+#order += "ethernet enp3s0"
+order += "wireless wlp2s0"
+#order += "volume master"
+order += "battery 1"
+order += "tztime local"
+
+cpu_usage {
+        format = "💻<span color='#cfd6e3'> %usage</span>"
+	#format = "♨️<span color='#cfd6e3'> %degrees °C</span>"
+}
+
+cpu_temperature 0 {
+	#format = "<span background='#ff5555'> ♨️ %degrees °C </span>"
+	#format = "<span background='#ff3c3c'> ♨️ %degrees °C </span>"
+	format = "♨️<span color='#cfd6e3'> %degrees °C</span>"
+        path = "/sys/class/thermal/thermal_zone0/temp"
+}
+
+disk "/" {
+        #format = "<span background='#fec7cd'>  %free Free </span>"
+	#format = "<span background='#fec7cd'> 🖴 %avail Free </span>"
+	format = "💿<span color='#cfd6e3'> %avail</span>"
+}
+
+wireless wlp2s0 {
+        #format_up = "<span background='#b48ead'>  %essid | IP: %ip </span>"
+	format_up = "📡<span color='#cfd6e3'> %essid</span>"
+        format_down = "✈️<span color='#cfd6e3'> Disconnected</span>"
+}
+
+#volume master {
+#        #format = "<span background='#ebcb8b'>  %volume </span>"
+#        #format_muted = "<span background='#ebcb8b'>  Muted </span>"
+#	format = "<span background='#e0ae4a'>  %volume </span>"
+#        format_muted = "<span background='#e0ae4a'>  Muted </span>"
+#        device = "default"
+#        mixer = "Master"
+#        mixer_idx = 0
+#}
+
+battery 1 {
+	last_full_capacity = true
+        format = "%status<span color='#cfd6e3'> %percentage</span>"
+        format_down = "⛔"
+        status_chr = "🔌⚡"
+        status_bat = "⚡"
+        status_unk = "❓"
+        status_full = "💥"
+        path = "/sys/class/power_supply/BAT%d/uevent"
+	low_threshold = 20
+        threshold_type = time
+}
+
+memory {
+        format = "🐏<span color='#cfd6e3'> %used / %total</span>"
+	#format = "<span background='#61a48e'> 🏃🏁 %percentage_used+percentage_free%available </span>"
+    #    threshold_degraded = "2G"
+    #    format_degraded = "MEMORY < %free"
+}
+
+tztime local {
+		format = "<span color='#cfd6e3'>%time</span>"
+		format_time = "%a %-d %b %Y %R:%S"
+		#format = " %a %-d %b %H:%M:%S"
+}
